@@ -1,0 +1,171 @@
+package impl;
+
+import java.io.IOException;
+import java.text.DecimalFormat;
+import java.util.List;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
+import ui.main.MyPannelBuilder;
+import wordData.MyWordDatabase;
+import interfaces.*;
+
+public class Controler implements UiActions {
+	private PannelBuilder b = new MyPannelBuilder(this);
+	private ConfigPannel cp;
+	private MenuPannel mp;
+	private JFrame mf;
+	
+	private WordDatabase wd;
+	
+	public Controler(){
+		b.buildConfigPannel();
+		mf = b.buildJframe();
+		cp = b.buildConfigPannel();
+		mp = b.buildMenuPannel(getWordBaseList());
+		
+		changPannel((JPanel) mp);
+
+		try {
+			wd = MyWordDatabase.instance("dictionary.txt");
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null,"未发现词库");  
+			this.exitProgramme();
+		}
+		
+	}
+	
+	private void changPannel(JPanel p){
+		mf.setContentPane(p);
+		mf.revalidate();
+	}
+	
+	private String[] getWordBaseList() {
+		String[] s = new String[26];
+		for(int i =0;i<26;i++){
+			s[i]=((char)(i+'a'))+" 词库";
+		}
+		return s;
+	}
+
+	@Override
+	public void exitProgramme() {
+		wd.save();
+		System.exit(0);
+	}
+
+	@Override
+	public void clickStartConfig(String worddata) {
+		wd.setCurrentDatabase(worddata.charAt(0));
+		changPannel((JPanel) cp);
+	}
+
+	@Override
+	public void clickReturnMenu() {
+		changPannel((JPanel) mp);
+	}
+
+	@Override
+	public List<WordItem> inputText(String s) {
+		return 	wd.search(s, -1);
+	}
+
+	List<WordItem> wordList;
+	int wlsize,correctNum;
+	char wdCurrent;
+	@Override
+	public void clickStartRecite(WordItem word, int num) {
+		wordList = wd.search(word.getEn(), num);
+		lastCorrect = null;
+		
+		wlsize = wordList.size();
+		correctNum=0;
+		wdCurrent = word.getEn().charAt(0);
+		
+		nextReciteWord();
+	}
+
+	@Override
+	public void clickStartReciteLast(int num) {
+		WordItem w = wd.getLastWord();
+		List<WordItem> wl = wd.search(w.getEn(), 2);
+
+		if(wl.size()==2) clickStartRecite(wl.get(1),num);
+		else clickStartReciteDefault(num);
+	}
+
+	@Override
+	public void clickStartReciteDefault(int num) {
+		List<WordItem> ls = wd.search("", -1);
+		clickStartRecite(ls.get(0), num);
+	}
+
+	
+	private Boolean lastCorrect = null;
+	
+	@Override
+	public boolean nextReciteWord() {
+		if(wordList.size()==0) {
+			
+			String statistics = " 所选词库:"+wdCurrent+"\n"
+							  + "所选单词数:"+wlsize+"个\n"
+							  + "正确单词数:"+correctNum+"个\n"
+							  + "错误单词数:"+(wlsize-correctNum)+"个\n"
+							  + "  正确率:"+new DecimalFormat("0.00").format((float)correctNum/wlsize*100)+"%";
+			JOptionPane.showMessageDialog(null, statistics);
+			
+			clickReturnMenu();
+			return false;
+		}
+		WordItem wi = wordList.get(0);
+		changPannel((JPanel) b.buildRecitePannel(wi, lastCorrect, wordList.size()-1));
+		
+		return true;
+	}
+
+	@Override
+	public boolean checkRecite(String in) {
+		WordItem wi = wordList.remove(0);
+		wd.setLastWord(wi);
+		lastCorrect = wi.check(in);
+		if(lastCorrect)correctNum++;
+		return nextReciteWord();
+	}
+
+	@Override
+	@Deprecated
+	public void clickReturnConfig() {
+		// TODO 自动生成的方法存根
+	}
+
+	@Override
+	public String getStatistics() {
+		Object[][] data = new Object[27][];
+		int totalRecited = 0,totalCorrect = 0,totalWord=0;;
+		for(int i = 0;i<26;i++){
+			wd.setCurrentDatabase((char) (i+'a'));
+			List<WordItem> wl = wd.search("", -1);
+			int recited=0,correct=0;
+			for(WordItem wi:wl){
+				if(wi.getTimes()!= 0) recited++;
+				if(wi.getCorrect()!= 0) correct++;
+			}
+			data[i] = new Object[]{(char)(i+'a')+" 词库",wl.size(),recited,correct, recited - correct,recited==0?0:((float)correct/recited)};
+			totalRecited+=recited;
+			totalCorrect+=correct;
+			totalWord+=wl.size();
+		}
+		data[26] = new Object[]{ "词库总计",totalWord,totalRecited,totalCorrect, totalRecited - totalCorrect,totalRecited==0?0:((float)totalCorrect/totalRecited)};
+		
+		b.buildStatistics(data);
+		return null;
+	}
+
+	public WordDatabase getWd() {
+		return wd;
+	}
+
+
+}
