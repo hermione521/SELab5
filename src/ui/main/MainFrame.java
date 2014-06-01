@@ -1,5 +1,6 @@
 package ui.main;
 
+import java.awt.Container;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -8,7 +9,7 @@ import javax.swing.UIManager;
 
 import org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper;
 
-import ui.menu.MyMenuPanel;
+import ui.PannelBuilder;
 
 public class MainFrame extends JFrame {
 	private static final long serialVersionUID = 2943141619736401172L;
@@ -19,11 +20,14 @@ public class MainFrame extends JFrame {
 		org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper.launchBeautyEyeLNF();
 		
 		JFrame jf =  new MainFrame();
-
-		jf.setContentPane(new MyMenuPanel(null,new String[]{"A","B","V","F"}));
+		PannelBuilder builder = new MyPannelBuilder(null);
+		
+//		jf.setContentPane((Container) builder.build(new String[]{"a","a","a","a","a","a"}));
+		jf.setContentPane((Container) builder.build());
 		jf.revalidate();
 
 	}
+	
 	
 	public MainFrame(){
 		super();
