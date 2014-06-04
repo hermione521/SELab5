@@ -8,9 +8,9 @@ import interfaces.PannelBuilder;
 import interfaces.RecitePannel;
 import interfaces.UiActions;
 import interfaces.WordItem;
+import ui.config.MyConfigPanel;
 import ui.menu.MyMenuPanel;
 import ui.recite.WordPannel;
-import ui.starter.MyConfigPanel;
 
 public class MyPannelBuilder implements PannelBuilder {
 

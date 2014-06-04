@@ -1,4 +1,4 @@
-package ui.starter;
+package ui.config;
 
 import java.awt.Dimension;
 import javax.swing.JTextField;

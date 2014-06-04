@@ -1,12 +1,15 @@
 package interfaces;
 
 import java.io.Serializable;
+import java.util.List;
 
 public interface WordDatabase extends Serializable{
 	public void save();
-	public void load();
 	
 	public String getDatabaseName();
-	public void setLastWord(WordItem wi);
 	public WordItem getLastWord();
+	
+	public void setCurrentDatabase(char c);
+	
+	public List<WordItem> search(String s,int num);
 }

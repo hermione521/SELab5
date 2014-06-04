@@ -1,4 +1,4 @@
-package ui.starter;
+package ui.config;
 
 import interfaces.ConfigPannel;
 import interfaces.UiActions;
