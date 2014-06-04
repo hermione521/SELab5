@@ -1,6 +1,7 @@
 package ui.starter;
 
-import impl.UiActions;
+import interfaces.ConfigPannel;
+import interfaces.UiActions;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -12,7 +13,6 @@ import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 
-import ui.ConfigPannel;
 import ui.main.MyAbstractJPanel;
 
 public class MyConfigPanel extends MyAbstractJPanel implements ConfigPannel{

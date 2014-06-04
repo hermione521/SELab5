@@ -1,8 +1,6 @@
-package impl;
+package interfaces;
 
 import java.util.List;
-
-import word.WordItem;
 
 public interface UiActions {
 	public String[] getWordBaseList();

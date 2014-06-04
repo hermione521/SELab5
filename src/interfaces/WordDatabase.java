@@ -1,4 +1,4 @@
-package word;
+package interfaces;
 
 import java.io.Serializable;
 

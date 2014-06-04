@@ -1,6 +1,7 @@
 package ui.recite;
 
-import impl.UiActions;
+import interfaces.RecitePannel;
+import interfaces.UiActions;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -9,7 +10,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import ui.RecitePannel;
 import ui.main.MyAbstractJPanel;
 
 public class WordPannel extends MyAbstractJPanel implements RecitePannel{

@@ -1,6 +1,7 @@
 package ui.menu;
 
-import impl.UiActions;
+import interfaces.MenuPannel;
+import interfaces.UiActions;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -8,7 +9,6 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import ui.MenuPannel;
 import ui.main.MyAbstractJPanel;
 
 public class MyMenuPanel extends MyAbstractJPanel implements MenuPannel {
