@@ -1,3 +1,4 @@
+import impl.Controler;
 import interfaces.PannelBuilder;
 
 import java.awt.Container;
@@ -18,13 +19,17 @@ public class Starter {
         UIManager.put("RootPane.setupButtonVisible",new Boolean (false));
 		org.jb2011.lnf.beautyeye.BeautyEyeLNFHelper.launchBeautyEyeLNF();
 		
-		PannelBuilder builder = new MyPannelBuilder(null);
-		JFrame jf = builder.buildJframe();
+		new Controler();
+		
+//		PannelBuilder builder = new MyPannelBuilder(null);
+//		JFrame jf = builder.buildJframe();
 //		jf.setContentPane((Container) builder.build(new String[]{"a","a","a","a","a","a"}));
-		jf.setContentPane((Container) builder.buildConfigPannel());
+//		jf.setContentPane((Container) builder.buildConfigPannel());
 //		jf.setContentPane((Container) builder.build((WordItem)null, true, 1));
-		jf.revalidate();
+//		jf.revalidate();
 
+//		WordDatabase wd = MyWordDatabase.instance("dictionary.txt");
+//		wd.save();
 	}
 
 }

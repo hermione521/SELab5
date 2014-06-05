@@ -3,8 +3,6 @@ package interfaces;
 import java.util.List;
 
 public interface UiActions {
-	public String[] getWordBaseList();
-	
 	public void exitProgramme();
 	public void startConfig(String worddata);
 	
