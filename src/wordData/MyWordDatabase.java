@@ -75,7 +75,7 @@ public class MyWordDatabase implements WordDatabase {
 	@Override
 	public WordItem getLastWord() {
 		WordItem ret = lastword.get(currentDatabase);
-		if(ret == null) ret = search(currentDatabase+"",1).get(0);
+		if(ret == null) ret = search(currentDatabase+"",-1).get(0);
 		return ret;
 	}
 
@@ -91,13 +91,13 @@ public class MyWordDatabase implements WordDatabase {
 		if((Integer)num != -1){
 			int index = wordlist.indexOf(new MyWordItem(s, ""));
 			for(int i = index;i<index+num && i<wordlist.size();i++){
-				if(wordlist.get(i).startsWith(s)){
+				if(wordlist.get(i).startsWith(currentDatabase+"")){
 					ret.add(wordlist.get(i));
 				}
 			}
 		}else{
 			for(int i = 0;i<wordlist.size();i++){
-				if(wordlist.get(i).startsWith(currentDatabase+"")){
+				if(wordlist.get(i).startsWith(s) && wordlist.get(i).startsWith(currentDatabase+"")){
 					ret.add(wordlist.get(i));
 				}
 			}
