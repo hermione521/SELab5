@@ -19,7 +19,7 @@ public class MyPannelBuilder implements PannelBuilder {
 		this.mActions= mActions;
 	}
 	@Override
-	public RecitePannel buildRecitePannel(WordItem wi,boolean f,int i) {
+	public RecitePannel buildRecitePannel(WordItem wi,Boolean f,int i) {
 		return new WordPannel(mActions, wi.getCh(), f, i);
 	}
 
