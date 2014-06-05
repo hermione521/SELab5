@@ -1,33 +1,41 @@
 package ui.config;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+
 import interfaces.ConfigPannel;
 import interfaces.UiActions;
+import interfaces.WordItem;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import ui.main.MyAbstractJPanel;
 
 public class MyConfigPanel extends MyAbstractJPanel implements ConfigPannel{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1317195495803770696L;
 	
+	private static final long serialVersionUID = 2465304667136598974L;
 	private JButton buttonExit = new ButtonExit();
 	private ListPanel list = new ListPanel();
 	private JTextField input = new InputWord();
 	private JSpinner spinner = new SpinnerNum();
 	private JButton buttonStart = new ButtonStart();
+	private UiActions mActions;
 	public MyConfigPanel(final UiActions mActions){
-
+		this.mActions = mActions;
 		JPanel panel = new JPanel();
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		panel.add(Box.createVerticalStrut(15));
@@ -66,6 +74,87 @@ public class MyConfigPanel extends MyAbstractJPanel implements ConfigPannel{
 		panel.add(setButtonLayout(buttonExit));
 		add(setButtonLayout(panel));
 		
+		buttonExit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				mActions.clickReturnMenu();
+			}
+		});
+		
+		input.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent arg0) {
+				inputChanges();
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent arg0) {
+				inputChanges();
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent arg0) {
+				inputChanges();		
+			}
+		});
+		
+		buttonStart.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				String s = list.getList().getSelectedValue();
+				if(r3.isSelected()) mActions.clickStartRecite(s.substring(0,s.indexOf("::")),(Integer)spinner.getValue());
+				if(r1.isSelected()) mActions.clickStartReciteLast((Integer)spinner.getValue());
+				if(r2.isSelected()) mActions.clickStartReciteDefault((Integer)spinner.getValue());
+			}
+		});
+		
+		list.getList().addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent arg0) {
+				buttonStart.setEnabled(true);
+			}
+		});
+		
+		r1.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				input.setEditable(false);
+				list.getList().setEnabled(false);
+				buttonStart.setEnabled(true);
+			}
+		});
+		r2.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				input.setEditable(false);
+				list.getList().setEnabled(false);
+				buttonStart.setEnabled(true);
+			}
+		});
+		r3.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				input.setEditable(true);
+				list.getList().setEnabled(true);
+				if(list.getList().getSelectedValue()==null) buttonStart.setEnabled(false);
+			}
+		});
 	}
 
+
+	
+	
+	private void inputChanges(){
+		List<WordItem> words = mActions.inputText(input.getText());
+		
+		DefaultListModel<String> listModel = new DefaultListModel<String>();
+		for(WordItem w:words){
+			listModel.addElement(w.toString());
+		}
+		list.getList().setModel(listModel);
+		this.getParent().revalidate();
+		buttonStart.setEnabled(false);
+	}
 }

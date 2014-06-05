@@ -43,6 +43,21 @@ public class MyMenuPanel extends MyAbstractJPanel implements MenuPannel {
 		buttonStart.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				mActions.clickStartConfig(listPanel.getList().getSelectedValue());
+			}
+		});
+		
+		buttonExit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				mActions.exitProgramme();
+			}
+		});
+		
+		buttonStatistics.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				mActions.getStatistics();
 			}
 		});
 	}
