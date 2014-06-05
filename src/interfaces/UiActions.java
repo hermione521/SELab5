@@ -9,7 +9,7 @@ public interface UiActions {
 	public void clickReturnMenu();
 	public List<WordItem> inputText(String s);
 	
-	public void clickStartRecite(String word,int num) ;	
+	public void clickStartRecite(WordItem word,int num) ;	
 	public void clickStartReciteLast(int num) ;	
 	public void clickStartReciteDefault(int num);	
 	
