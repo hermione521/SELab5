@@ -87,15 +87,19 @@ public class MyWordDatabase implements WordDatabase {
 	@Override
 	public List<WordItem> search(String s, int num) {
 		ArrayList<WordItem> ret = new ArrayList<WordItem>();
-		int index = 0;
 		
 		if((Integer)num == null){
-			index = wordlist.indexOf(new MyWordItem(s, ""));
-		}
-		
-		for(int i = index;i<index+num && i<wordlist.size();i++){
-			if(wordlist.get(i).startsWith(s)){
-				ret.add(wordlist.get(i));
+			int index = wordlist.indexOf(new MyWordItem(s, ""));
+			for(int i = index;i<index+num && i<wordlist.size();i++){
+				if(wordlist.get(i).startsWith(s)){
+					ret.add(wordlist.get(i));
+				}
+			}
+		}else{
+			for(int i = 0;i<wordlist.size();i++){
+				if(wordlist.get(i).startsWith(currentDatabase+"")){
+					ret.add(wordlist.get(i));
+				}
 			}
 		}
 		
