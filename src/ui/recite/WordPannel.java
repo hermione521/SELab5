@@ -1,5 +1,8 @@
 package ui.recite;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import interfaces.RecitePannel;
 import interfaces.UiActions;
 
@@ -42,6 +45,20 @@ public class WordPannel extends MyAbstractJPanel implements RecitePannel{
 		panel.add(setButtonLayout(buttonExit));
 		add(setButtonLayout(panel));
 		
+		buttonExit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				mActions.clickReturnMenu();
+			}
+		});
+		
+		buttonConfirm.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				mActions.checkRecite(input.getText());
+			}
+		});
 	}
 
 }

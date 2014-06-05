@@ -13,7 +13,7 @@ public class ButtonConfirm extends JButton {
 	 */
 	private static final long serialVersionUID = -2605211113017451185L;
 	public ButtonConfirm(){
-		super("ȷ��");
+		super("确认");
 		setUI(new BEButtonUI().setNormalColor(BEButtonUI.NormalColor.lightBlue));
 		setForeground(Color.white);
 		setPreferredSize(new Dimension(220, getPreferredSize().height));

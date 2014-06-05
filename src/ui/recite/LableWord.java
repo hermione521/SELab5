@@ -15,7 +15,7 @@ public class LableWord extends JLabel {
 
 	public LableWord() {
 //		setPreferredSize(new Dimension(220,150));
-		setFont(new Font("����",Font.BOLD,20));
+		setFont(new Font("宋体",Font.BOLD,20));
 	}
 	
 	public LableWord setWord(String s){
