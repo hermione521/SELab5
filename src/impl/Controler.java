@@ -56,15 +56,15 @@ public class Controler implements UiActions {
 	}
 
 	@Override
-	public void startConfig(String worddata) {
+	public void clickStartConfig(String worddata) {
 		// TODO 自动生成的方法存根
-
+		
 	}
 
 	@Override
-	public void returnMenu() {
+	public void clickReturnMenu() {
 		// TODO 自动生成的方法存根
-
+		
 	}
 
 	@Override
@@ -74,39 +74,39 @@ public class Controler implements UiActions {
 	}
 
 	@Override
-	public void startWord(String word, int num) {
+	public void clickStartRecite(String word, int num) {
 		// TODO 自动生成的方法存根
-
+		
 	}
 
 	@Override
-	public void startLast(int num) {
+	public void clickStartReciteLast(int num) {
 		// TODO 自动生成的方法存根
-
+		
 	}
 
 	@Override
-	public void startDefault(int num) {
+	public void clickStartReciteDefault(int num) {
 		// TODO 自动生成的方法存根
-
+		
 	}
 
 	@Override
-	public boolean nextWord() {
+	public boolean nextReciteWord() {
 		// TODO 自动生成的方法存根
 		return false;
 	}
 
 	@Override
-	public boolean check(String in) {
+	public boolean checkRecite(String in) {
 		// TODO 自动生成的方法存根
 		return false;
 	}
 
 	@Override
-	public void returnConfig() {
+	public void clickReturnConfig() {
 		// TODO 自动生成的方法存根
-
+		
 	}
 
 	@Override
@@ -115,10 +115,5 @@ public class Controler implements UiActions {
 		return null;
 	}
 
-	@Override
-	public void revalidate() {
-		// TODO 自动生成的方法存根
-
-	}
 
 }

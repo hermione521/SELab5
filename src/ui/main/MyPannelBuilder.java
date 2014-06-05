@@ -33,7 +33,7 @@ public class MyPannelBuilder implements PannelBuilder {
 	}
 	@Override
 	public JFrame buildJframe() {
-		return new MainFrame();
+		return new MainFrame(mActions);
 	}
 
 }

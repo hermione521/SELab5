@@ -4,20 +4,18 @@ import java.util.List;
 
 public interface UiActions {
 	public void exitProgramme();
-	public void startConfig(String worddata);
+	public void clickStartConfig(String worddata);
 	
-	public void returnMenu();
+	public void clickReturnMenu();
 	public List<WordItem> inputText(String s);
 	
-	public void startWord(String word,int num) ;	
-	public void startLast(int num) ;	
-	public void startDefault(int num);	
+	public void clickStartRecite(String word,int num) ;	
+	public void clickStartReciteLast(int num) ;	
+	public void clickStartReciteDefault(int num);	
 	
-	public boolean nextWord();
-	public boolean check(String in);
-	public void returnConfig();
+	public boolean nextReciteWord();
+	public boolean checkRecite(String in);
+	public void clickReturnConfig();
 	
 	public String getStatistics();
-	
-	public void revalidate();
 }

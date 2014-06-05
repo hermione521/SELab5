@@ -1,5 +1,8 @@
 package ui.menu;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import interfaces.MenuPannel;
 import interfaces.UiActions;
 
@@ -36,6 +39,12 @@ public class MyMenuPanel extends MyAbstractJPanel implements MenuPannel {
 		panel.add(Box.createVerticalStrut(15));
 		panel.add(setButtonLayout(buttonExit));
 		add(setButtonLayout(panel));
+		
+		buttonStart.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
 	}
 	
 }
