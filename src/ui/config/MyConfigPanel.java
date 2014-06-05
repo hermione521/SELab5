@@ -102,8 +102,8 @@ public class MyConfigPanel extends MyAbstractJPanel implements ConfigPannel{
 		buttonStart.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				String s = list.getList().getSelectedValue();
-				if(r3.isSelected()) mActions.clickStartRecite(s.substring(0,s.indexOf("::")),(Integer)spinner.getValue());
+				int i = list.getList().getSelectedIndex();
+				if(r3.isSelected()) mActions.clickStartRecite(words.get(i),(Integer)spinner.getValue());
 				if(r1.isSelected()) mActions.clickStartReciteLast((Integer)spinner.getValue());
 				if(r2.isSelected()) mActions.clickStartReciteDefault((Integer)spinner.getValue());
 			}
@@ -145,9 +145,9 @@ public class MyConfigPanel extends MyAbstractJPanel implements ConfigPannel{
 
 
 	
-	
+	private List<WordItem> words;
 	private void inputChanges(){
-		List<WordItem> words = mActions.inputText(input.getText());
+		words = mActions.inputText(input.getText());
 		
 		DefaultListModel<String> listModel = new DefaultListModel<String>();
 		for(WordItem w:words){
