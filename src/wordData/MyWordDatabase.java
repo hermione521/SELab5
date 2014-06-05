@@ -4,8 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class MyWordDatabase implements WordDatabase {
 		File file = new File(f);
 		name = file.getName();
 		
-		BufferedReader br = new BufferedReader(new FileReader(file));
+		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file),"GBK"));
 		String data;
 		while((data = br.readLine())!=null){
 		     StringTokenizer st = new StringTokenizer(data);
@@ -88,7 +88,7 @@ public class MyWordDatabase implements WordDatabase {
 	public List<WordItem> search(String s, int num) {
 		ArrayList<WordItem> ret = new ArrayList<WordItem>();
 		
-		if((Integer)num == null){
+		if((Integer)num != -1){
 			int index = wordlist.indexOf(new MyWordItem(s, ""));
 			for(int i = index;i<index+num && i<wordlist.size();i++){
 				if(wordlist.get(i).startsWith(s)){
