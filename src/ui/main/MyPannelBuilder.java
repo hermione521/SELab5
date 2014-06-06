@@ -11,6 +11,7 @@ import interfaces.WordItem;
 import ui.config.MyConfigPanel;
 import ui.menu.MyMenuPanel;
 import ui.recite.WordPannel;
+import ui.statics.StatisticsFrame;
 
 public class MyPannelBuilder implements PannelBuilder {
 
@@ -35,5 +36,10 @@ public class MyPannelBuilder implements PannelBuilder {
 	public JFrame buildJframe() {
 		return new MainFrame(mActions);
 	}
+	@Override
+	public JFrame buildStatistics(Object[][] data) {
+		return new StatisticsFrame(data);
+	}
+	
 
 }
