@@ -8,16 +8,17 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import ui.main.MyPannelBuilder;
-import wordData.*;
+import wordData.MyWordDatabase;
 import interfaces.*;
 
 public class Controler implements UiActions {
-	PannelBuilder b = new MyPannelBuilder(this);
-	ConfigPannel cp;
-	MenuPannel mp;
-	JFrame mf;
+	private PannelBuilder b = new MyPannelBuilder(this);
+	private ConfigPannel cp;
+	private MenuPannel mp;
+	private JFrame mf;
 	
-	WordDatabase wd;
+	private WordDatabase wd;
+	
 	public Controler(){
 		b.buildConfigPannel();
 		mf = b.buildJframe();
@@ -35,7 +36,7 @@ public class Controler implements UiActions {
 		
 	}
 	
-	void changPannel(JPanel p){
+	private void changPannel(JPanel p){
 		mf.setContentPane(p);
 		mf.revalidate();
 	}
@@ -50,68 +51,89 @@ public class Controler implements UiActions {
 
 	@Override
 	public void exitProgramme() {
-//		JOptionPane.showMessageDialog(null,"退出程序");  
 		wd.save();
 		System.exit(0);
 	}
 
 	@Override
 	public void clickStartConfig(String worddata) {
-		// TODO 自动生成的方法存根
-		
+		wd.setCurrentDatabase(worddata.charAt(0));
+		changPannel((JPanel) cp);
 	}
 
 	@Override
 	public void clickReturnMenu() {
-		// TODO 自动生成的方法存根
-		
+		changPannel((JPanel) mp);
 	}
 
 	@Override
 	public List<WordItem> inputText(String s) {
-		// TODO 自动生成的方法存根
-		return null;
+		return 	wd.search(s, -1);
 	}
 
+	List<WordItem> wordList;
 	@Override
-	public void clickStartRecite(String word, int num) {
-		// TODO 自动生成的方法存根
-		
+	public void clickStartRecite(WordItem word, int num) {
+		wordList = wd.search(word.getEn(), num);
+		lastCorrect = null;
+		nextReciteWord();
 	}
 
 	@Override
 	public void clickStartReciteLast(int num) {
-		// TODO 自动生成的方法存根
-		
+		WordItem w = wd.getLastWord();
+		clickStartRecite(w,num);
 	}
 
 	@Override
 	public void clickStartReciteDefault(int num) {
-		// TODO 自动生成的方法存根
-		
+		List<WordItem> ls = wd.search("", -1);
+		clickStartRecite(ls.get(0), num);
 	}
 
+	
+	private Boolean lastCorrect = null;
 	@Override
 	public boolean nextReciteWord() {
-		// TODO 自动生成的方法存根
-		return false;
+		if(wordList.size()==0) {
+			clickReturnMenu();
+			return false;
+		}
+		WordItem wi = wordList.get(0);
+		changPannel((JPanel) b.buildRecitePannel(wi, lastCorrect, wordList.size()-1));
+		
+		return true;
 	}
 
 	@Override
 	public boolean checkRecite(String in) {
-		// TODO 自动生成的方法存根
-		return false;
+		WordItem wi = wordList.remove(0);
+		lastCorrect = wi.check(in);
+		return nextReciteWord();
 	}
 
 	@Override
+	@Deprecated
 	public void clickReturnConfig() {
 		// TODO 自动生成的方法存根
-		
 	}
 
 	@Override
 	public String getStatistics() {
-		// TODO 自动生成的方法存根
+		Object[][] data = new Object[26][];
+		for(int i = 0;i<26;i++){
+			wd.setCurrentDatabase((char) (i+'a'));
+			List<WordItem> wl = wd.search("", -1);
+			int recited=0,correct=0;
+			for(WordItem wi:wl){
+				if(wi.getTimes()!= 0) recited++;
+				if(wi.getCorrect()!= 0) correct++;
+				
+			}
+			data[i] = new Object[]{(char)(i+'a')+" 词库",wl.size(),recited,correct, recited - correct,recited==0?0:((float)correct/recited)};
+			
+		}
+		b.buildStatistics(data);
 		return null;
 	}
 
