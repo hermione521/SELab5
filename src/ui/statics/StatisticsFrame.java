@@ -2,6 +2,8 @@ package ui.statics;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,13 +15,31 @@ public class StatisticsFrame extends JFrame {
 	private static final long serialVersionUID = 2886135048381319854L;
 // {"词库名","单词数","已背单词数","正确单词数","错误单词数","正确率"};
 
-	public  StatisticsFrame(Object[][] data){
+    JPanel jpannel = new JPanel(new GridLayout(3,1));
+	public  StatisticsFrame(final Object[][] data){
 		super();
 		setSize(800, 700);
-		
-        JPanel jp2 = new JPanel(new GridLayout(3,1));
-        int i = 0;
+        final TablePannel table = new TablePannel(data);
 
+        paintPics(data,26);
+
+        setLayout(new BorderLayout());
+        
+        add(table, BorderLayout.WEST);
+        add(jpannel,BorderLayout.CENTER);
+        
+		setVisible(true);
+		
+		table.getTable().addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				if (e.getClickCount() == 1) {
+					paintPics(data,table.getTable().getSelectedRow());
+				}
+			}
+		});
+	}
+	
+	private void paintPics(Object[][] data,int i){
         List<Float> list = new ArrayList<Float>();
         list.add( (float) ((int)data[i][3]));
         list.add((float) ((int)data[i][4]));       
@@ -38,16 +58,11 @@ public class StatisticsFrame extends JFrame {
 			hd.add(new HistogramData( (float)((int)data[j][1]), "单词总数",(String)data[j][0]));
 		}
 
-        
-        jp2.add(new PieCharPannel((String) (data[i][0]),elem, list),BorderLayout.CENTER);
-        jp2.add(new PieCharPannel("",elem2, list2),BorderLayout.CENTER);
-		jp2.add(new HistogramJPanel("aaa",hd,data.length-1),BorderLayout.CENTER);
-
-        
-	    setLayout(new BorderLayout());
-        add(new TablePannel(data), BorderLayout.WEST);
-        add(jp2,BorderLayout.CENTER);
-        
-		setVisible(true);
+		jpannel.removeAll();
+        jpannel.add(new PieCharPannel((String) (data[i][0]),elem, list),BorderLayout.CENTER);
+        jpannel.add(new PieCharPannel("",elem2, list2),BorderLayout.CENTER);
+		jpannel.add(new HistogramJPanel("aaa",hd,data.length-1),BorderLayout.CENTER);
+		
+		revalidate();
 	}
 }
