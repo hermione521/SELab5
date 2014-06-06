@@ -22,10 +22,7 @@ public class PieCharPannel extends MyAbstractJPanel {
 
 	List<String> elem ;
 	
-	public PieCharPannel(String title, List<Float> value) {
-		elem=new ArrayList<String>();
-		elem.add("正确单词");
-		elem.add("错误单词");
+	public PieCharPannel(String title,List<String> elem,List<Float> value) {
 		DefaultPieDataset piedataset = new DefaultPieDataset();
 		for (int i = 0; i < elem.size(); i++) {
 			piedataset.setValue(elem.get(i), value.get(i));
@@ -41,7 +38,7 @@ public class PieCharPannel extends MyAbstractJPanel {
 
 	private JFreeChart createChart(String title,PieDataset piedataset) {
         JFreeChart jfreechart = ChartFactory.createPieChart(title, piedataset, true, true, false); 
-//        jfreechart.getTitle().setFont(new Font("宋体", Font.BOLD, 30));
+        jfreechart.getTitle().setFont(new Font("宋体", Font.BOLD, 20));
 
         PiePlot pieplot = (PiePlot)jfreechart.getPlot(); 
         pieplot.setLabelFont(new Font("宋体", 0, 12)); 
