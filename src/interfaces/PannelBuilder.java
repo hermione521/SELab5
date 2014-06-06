@@ -8,4 +8,5 @@ public interface PannelBuilder {
 	public RecitePannel buildRecitePannel(WordItem wi,Boolean f,int i);
 	public MenuPannel buildMenuPannel(String[] lists);
 	public ConfigPannel buildConfigPannel();
+	public JFrame buildStatistics(Object[][] data);
 }
