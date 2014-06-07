@@ -47,7 +47,7 @@ public class HistogramJPanel extends MyAbstractJPanel {
     private JFreeChart createChart(String title,CategoryDataset categorydataset)   { 
         JFreeChart jfreechart = ChartFactory.createBarChart(title,  horizontalTitle, verticallyTitle, categorydataset, PlotOrientation.VERTICAL, true, true, false); 
 
-       jfreechart.getTitle().setFont(new Font("宋体", Font.BOLD, 30)); 
+       jfreechart.getTitle().setFont(new Font("宋体", Font.BOLD, 15)); 
 
         CategoryPlot categoryplot = (CategoryPlot) jfreechart.getPlot(); 
 

@@ -76,7 +76,7 @@ public class StatisticsFrame extends JFrame {
 		jpannel.removeAll();
         jpannel.add(new PieCharPannel((String) (data[i][0]),elem, list),BorderLayout.CENTER);
         jpannel.add(new PieCharPannel("",elem2, list2),BorderLayout.CENTER);
-		jpannel.add(new HistogramJPanel("aaa",hd,data.length-1),BorderLayout.CENTER);
+		jpannel.add(new HistogramJPanel("全部词库柱状图统计",hd,data.length-1),BorderLayout.CENTER);
 		
 		revalidate();
 	}
