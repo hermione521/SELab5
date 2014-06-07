@@ -90,7 +90,10 @@ public class Controler implements UiActions {
 	@Override
 	public void clickStartReciteLast(int num) {
 		WordItem w = wd.getLastWord();
-		clickStartRecite(w,num);
+		List<WordItem> wl = wd.search(w.getEn(), 2);
+
+		if(wl.size()==2) clickStartRecite(wl.get(1),num);
+		else clickStartReciteDefault(num);
 	}
 
 	@Override
@@ -124,6 +127,7 @@ public class Controler implements UiActions {
 	@Override
 	public boolean checkRecite(String in) {
 		WordItem wi = wordList.remove(0);
+		wd.setLastWord(wi);
 		lastCorrect = wi.check(in);
 		if(lastCorrect)correctNum++;
 		return nextReciteWord();
