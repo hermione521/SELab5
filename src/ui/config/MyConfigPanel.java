@@ -63,7 +63,7 @@ public class MyConfigPanel extends MyAbstractJPanel implements ConfigPannel{
 
 		JPanel p2 = new JPanel();
 		p2.setLayout(new BoxLayout(p2, BoxLayout.X_AXIS));
-		p2.add(setButtonLayout(new JLabel("������")));
+		p2.add(setButtonLayout(new JLabel("单词数：")));
 		p2.add(setButtonLayout(spinner));
 		panel.add(p2);
 		
