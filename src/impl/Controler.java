@@ -1,6 +1,7 @@
 package impl;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -72,10 +73,17 @@ public class Controler implements UiActions {
 	}
 
 	List<WordItem> wordList;
+	int wlsize,correctNum;
+	char wdCurrent;
 	@Override
 	public void clickStartRecite(WordItem word, int num) {
 		wordList = wd.search(word.getEn(), num);
 		lastCorrect = null;
+		
+		wlsize = wordList.size();
+		correctNum=0;
+		wdCurrent = word.getEn().charAt(0);
+		
 		nextReciteWord();
 	}
 
@@ -96,6 +104,14 @@ public class Controler implements UiActions {
 	@Override
 	public boolean nextReciteWord() {
 		if(wordList.size()==0) {
+			
+			String statistics = " 所选词库:"+wdCurrent+"\n"
+							  + "所选单词数:"+wlsize+"个\n"
+							  + "正确单词数:"+correctNum+"个\n"
+							  + "错误单词数:"+(wlsize-correctNum)+"个\n"
+							  + "  正确率:"+new DecimalFormat("0.00").format((float)correctNum/wlsize*100)+"%";
+			JOptionPane.showMessageDialog(null, statistics);
+			
 			clickReturnMenu();
 			return false;
 		}
@@ -109,6 +125,7 @@ public class Controler implements UiActions {
 	public boolean checkRecite(String in) {
 		WordItem wi = wordList.remove(0);
 		lastCorrect = wi.check(in);
+		if(lastCorrect)correctNum++;
 		return nextReciteWord();
 	}
 
@@ -136,6 +153,7 @@ public class Controler implements UiActions {
 			totalWord+=wl.size();
 		}
 		data[26] = new Object[]{ "词库总计",totalWord,totalRecited,totalCorrect, totalRecited - totalCorrect,totalRecited==0?0:((float)totalCorrect/totalRecited)};
+		
 		b.buildStatistics(data);
 		return null;
 	}

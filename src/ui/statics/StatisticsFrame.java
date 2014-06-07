@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,7 @@ public class StatisticsFrame extends JFrame {
 // {"词库名","单词数","已背单词数","正确单词数","错误单词数","正确率"};
 
     JPanel jpannel = new JPanel(new GridLayout(3,1));
-	public  StatisticsFrame(final Object[][] data){
+	public  StatisticsFrame(final Object[][] data, final JFrame mf){
 		super();
 		setSize(800, 700);
         final TablePannel table = new TablePannel(data);
@@ -29,7 +31,9 @@ public class StatisticsFrame extends JFrame {
         add(jpannel,BorderLayout.CENTER);
         
 		setVisible(true);
-		
+		mf.setEnabled(false);
+//		mf.setFocusable(false);
+
 		table.getTable().addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 1) {
@@ -37,6 +41,17 @@ public class StatisticsFrame extends JFrame {
 				}
 			}
 		});
+	
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosed(WindowEvent arg0) {
+				super.windowClosed(arg0);
+				mf.setEnabled(true);
+//				mf.setFocusable(true);
+			}
+		});
+
 	}
 	
 	private void paintPics(Object[][] data,int i){

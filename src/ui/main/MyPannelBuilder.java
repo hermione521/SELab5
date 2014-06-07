@@ -16,6 +16,8 @@ import ui.statics.StatisticsFrame;
 public class MyPannelBuilder implements PannelBuilder {
 
 	private UiActions mActions;
+	
+	private JFrame mf=null;
 	public MyPannelBuilder(UiActions mActions){
 		this.mActions= mActions;
 	}
@@ -34,11 +36,12 @@ public class MyPannelBuilder implements PannelBuilder {
 	}
 	@Override
 	public JFrame buildJframe() {
-		return new MainFrame(mActions);
+		if(mf == null) mf = new MainFrame(mActions);
+		return mf;
 	}
 	@Override
 	public JFrame buildStatistics(Object[][] data) {
-		return new StatisticsFrame(data);
+		return new StatisticsFrame(data,mf);
 	}
 	
 
