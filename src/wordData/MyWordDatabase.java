@@ -80,6 +80,10 @@ public class MyWordDatabase implements WordDatabase {
 	}
 
 	@Override
+	public void setLastWord(WordItem wi) {
+		lastword.put(currentDatabase, wi);		
+	}
+	@Override
 	public void setCurrentDatabase(char c) {
 		currentDatabase = c;
 	}
