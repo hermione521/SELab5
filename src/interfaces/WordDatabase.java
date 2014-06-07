@@ -8,6 +8,7 @@ public interface WordDatabase extends Serializable{
 	
 	public String getDatabaseName();
 	public WordItem getLastWord();
+	public void setLastWord(WordItem wi);
 	
 	public void setCurrentDatabase(char c);
 	
