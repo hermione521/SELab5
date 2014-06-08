@@ -11,6 +11,7 @@ public interface WordDatabase extends Serializable{
 	public void setLastWord(WordItem wi);
 	
 	public void setCurrentDatabase(char c);
+	public char getCurrentDatabase();
 	
 	public List<WordItem> search(String s,int num);
 }

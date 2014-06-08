@@ -39,10 +39,13 @@ public class MyWordItemTest {
 	public void equalsTest() {
 		MyWordItem anotherItem = new MyWordItem(english, "另一个测试");
 		assertEquals(wordItem.equals(anotherItem), true);
+		
+		anotherItem = new MyWordItem("another test", "另一个测试");
+		assertEquals(wordItem.equals(anotherItem), false);
 	}
 	
 	@Test
-	public void startsWith() {
+	public void startsWithTest() {
         assertEquals(wordItem.startsWith("t"), true);
         assertEquals(wordItem.startsWith("a"), false);
 	}

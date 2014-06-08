@@ -104,6 +104,7 @@ public class Controler implements UiActions {
 
 	
 	private Boolean lastCorrect = null;
+	
 	@Override
 	public boolean nextReciteWord() {
 		if(wordList.size()==0) {
@@ -160,6 +161,10 @@ public class Controler implements UiActions {
 		
 		b.buildStatistics(data);
 		return null;
+	}
+
+	public WordDatabase getWd() {
+		return wd;
 	}
 
 

@@ -87,6 +87,10 @@ public class MyWordDatabase implements WordDatabase {
 	public void setCurrentDatabase(char c) {
 		currentDatabase = c;
 	}
+	@Override
+	public char getCurrentDatabase() {
+		return currentDatabase;
+	}
 
 	@Override
 	public List<WordItem> search(String s, int num) {
