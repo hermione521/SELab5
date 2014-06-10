@@ -18,4 +18,5 @@ public interface UiActions {
 	public void clickReturnConfig();
 	
 	public String getStatistics();
+	public WordDatabase getWd();
 }

@@ -1,14 +1,18 @@
 package unitTest;
 
 import static org.junit.Assert.*;
+
 import java.util.List;
+
 import impl.Controler;
+import interfaces.UiActions;
 import interfaces.WordItem;
+
 import org.junit.Test;
 
 public class ControlerTest {
 
-	Controler controler = new Controler();
+	UiActions controler = new Controler();
 
 	@Test
 	public void clickStartConfigTest() {
