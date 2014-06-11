@@ -21,19 +21,20 @@ public class Controler implements UiActions {
 	private WordDatabase wd;
 	
 	public Controler(){
-		b.buildConfigPannel();
-		mf = b.buildJframe();
-		cp = b.buildConfigPannel();
-		mp = b.buildMenuPannel(getWordBaseList());
-		
-		changPannel((JPanel) mp);
-
 		try {
 			wd = MyWordDatabase.instance("dictionary.txt");
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null,"未发现词库");  
 			this.exitProgramme();
 		}
+		
+		b.buildConfigPannel();
+		mf = b.buildJframe();
+		cp = b.buildConfigPannel();
+		mp = b.buildMenuPannel(wd.getAllDataBase());
+		
+		changPannel((JPanel) mp);
+
 		
 	}
 	
@@ -42,14 +43,6 @@ public class Controler implements UiActions {
 		mf.revalidate();
 	}
 	
-	private String[] getWordBaseList() {
-		String[] s = new String[26];
-		for(int i =0;i<26;i++){
-			s[i]=((char)(i+'a'))+" 词库";
-		}
-		return s;
-	}
-
 	@Override
 	public void exitProgramme() {
 		wd.save();
@@ -57,8 +50,8 @@ public class Controler implements UiActions {
 	}
 
 	@Override
-	public void clickStartConfig(String worddata) {
-		wd.setCurrentDatabase(worddata.charAt(0));
+	public void clickStartConfig(int index) {
+		wd.setCurrentDatabase(wd.getAllDataBase()[index]);
 		changPannel((JPanel) cp);
 	}
 
@@ -135,31 +128,27 @@ public class Controler implements UiActions {
 	}
 
 	@Override
-	@Deprecated
-	public void clickReturnConfig() {
-		// TODO 自动生成的方法存根
-	}
-
-	@Override
 	public String getStatistics() {
-		Object[][] data = new Object[27][];
-		int totalRecited = 0,totalCorrect = 0,totalWord=0;;
-		for(int i = 0;i<26;i++){
-			wd.setCurrentDatabase((char) (i+'a'));
-			List<WordItem> wl = wd.search("", -1);
-			int recited=0,correct=0;
-			for(WordItem wi:wl){
-				if(wi.getTimes()!= 0) recited++;
-				if(wi.getCorrect()!= 0) correct++;
-			}
-			data[i] = new Object[]{(char)(i+'a')+" 词库",wl.size(),recited,correct, recited - correct,recited==0?0:((float)correct/recited)};
-			totalRecited+=recited;
-			totalCorrect+=correct;
-			totalWord+=wl.size();
-		}
-		data[26] = new Object[]{ "词库总计",totalWord,totalRecited,totalCorrect, totalRecited - totalCorrect,totalRecited==0?0:((float)totalCorrect/totalRecited)};
 		
-		b.buildStatistics(data);
+		//TODO
+//		Object[][] data = new Object[27][];
+//		int totalRecited = 0,totalCorrect = 0,totalWord=0;;
+//		for(int i = 0;i<26;i++){
+////			wd.setCurrentDatabase((char) (i+'a'));
+//			List<WordItem> wl = wd.search("", -1);
+//			int recited=0,correct=0;
+//			for(WordItem wi:wl){
+//				if(wi.getTimes()!= 0) recited++;
+//				if(wi.getCorrect()!= 0) correct++;
+//			}
+//			data[i] = new Object[]{(char)(i+'a')+" 词库",wl.size(),recited,correct, recited - correct,recited==0?0:((float)correct/recited)};
+//			totalRecited+=recited;
+//			totalCorrect+=correct;
+//			totalWord+=wl.size();
+//		}
+//		data[26] = new Object[]{ "词库总计",totalWord,totalRecited,totalCorrect, totalRecited - totalCorrect,totalRecited==0?0:((float)totalCorrect/totalRecited)};
+//		
+//		b.buildStatistics(data);
 		return null;
 	}
 
