@@ -5,6 +5,7 @@ import java.io.Serializable;
 public interface WordItem extends Serializable,Comparable<WordItem> {
 	public String getEn();
 	public String getCh();
+	public String getTypes();
 	public String toString();
 	
 	public boolean equals(Object arg0);
