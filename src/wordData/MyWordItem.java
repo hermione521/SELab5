@@ -5,15 +5,20 @@ import java.util.regex.Pattern;
 import interfaces.WordItem;
 
 public class MyWordItem implements WordItem {
-
 	private static final long serialVersionUID = -3151582396313932147L;
 	private String en,ch;
+	private String type;
+	
 	private int times;
 	private int correct;
 	
 	public MyWordItem(String en,String ch){
 		this.en=en;
 		this.ch=ch;
+		int last = ch.indexOf(".");
+		if(last==-1) 
+			last=0;
+		type = ch.substring(0,last);
 		times = 0;
 		correct=0;
 	}
@@ -64,5 +69,10 @@ public class MyWordItem implements WordItem {
 	
 	public int getCorrect() {
 		return correct;
+	}
+
+	@Override
+	public String getTypes() {
+		return type;
 	}
 }

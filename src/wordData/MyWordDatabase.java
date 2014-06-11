@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import interfaces.WordDatabase;
@@ -20,6 +21,8 @@ import interfaces.WordItem;
 public class MyWordDatabase implements WordDatabase {
 
 	private static final long serialVersionUID = -6651456824394715211L;
+	private String name;
+
 	public static WordDatabase instance(String f) throws IOException{
 		
 		try {
@@ -33,22 +36,22 @@ public class MyWordDatabase implements WordDatabase {
 		}
 	}
 	
+	private Map<String,WordItem> lastword = new HashMap<String,WordItem>();
+	private Map<String,List<WordItem>> wordlists = new HashMap<String,List<WordItem>>();
+	private String currentDatabase;
 	
-	
-	private String name;
-	private Map<Character,WordItem> lastword = new HashMap<Character,WordItem>();
-	private ArrayList<WordItem> wordlist = new ArrayList<WordItem>();
-	private char currentDatabase;
 	private MyWordDatabase(String f) throws IOException{
 		File file = new File(f);
 		name = file.getName();
-		
+		//TODO
 		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file),"GBK"));
 		String data;
 		while((data = br.readLine())!=null){
 		     StringTokenizer st = new StringTokenizer(data);
 		     WordItem word = new MyWordItem(st.nextToken(), st.nextToken());
-		     wordlist.add(word);
+		     String type = word.getTypes();
+		     if(wordlists.get(type)==null) wordlists.put(type,new ArrayList<WordItem>());
+		     wordlists.get(type).add(word);
 		}
 		br.close();
 	}
@@ -84,33 +87,43 @@ public class MyWordDatabase implements WordDatabase {
 		lastword.put(currentDatabase, wi);		
 	}
 	@Override
-	public void setCurrentDatabase(char c) {
-		currentDatabase = c;
+	public void setCurrentDatabase(String s) {
+		currentDatabase = s;
 	}
 	@Override
-	public char getCurrentDatabase() {
+	public String getCurrentDatabase() {
 		return currentDatabase;
 	}
 
 	@Override
 	public List<WordItem> search(String s, int num) {
 		ArrayList<WordItem> ret = new ArrayList<WordItem>();
+		List<WordItem> wordlist = wordlists.get(currentDatabase);
+		if(wordlist==null) return ret;
 		
 		if((Integer)num != -1){
-			int index = wordlist.indexOf(new MyWordItem(s, ""));
+			int index = wordlists.get(currentDatabase).indexOf(new MyWordItem(s, ""));
 			for(int i = index;i<index+num && i<wordlist.size();i++){
-				if(wordlist.get(i).startsWith(currentDatabase+"")){
-					ret.add(wordlist.get(i));
-				}
+				ret.add(wordlist.get(i));
 			}
 		}else{
 			for(int i = 0;i<wordlist.size();i++){
-				if(wordlist.get(i).startsWith(s) && wordlist.get(i).startsWith(currentDatabase+"")){
+				if(wordlist.get(i).startsWith(s)){
 					ret.add(wordlist.get(i));
 				}
 			}
 		}
-		
+		return ret;
+	}
+
+	@Override
+	public String[] getAllDataBase() {
+		Set<String> set = wordlists.keySet();
+		String[] ret = new String[set.size()];
+		int i=0;
+		for(String s:set){
+			ret[i++] = s;
+		}
 		return ret;
 	}
 }
