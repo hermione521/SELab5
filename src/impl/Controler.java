@@ -131,24 +131,25 @@ public class Controler implements UiActions {
 	public String getStatistics() {
 		
 		//TODO
-//		Object[][] data = new Object[27][];
-//		int totalRecited = 0,totalCorrect = 0,totalWord=0;;
-//		for(int i = 0;i<26;i++){
-////			wd.setCurrentDatabase((char) (i+'a'));
-//			List<WordItem> wl = wd.search("", -1);
-//			int recited=0,correct=0;
-//			for(WordItem wi:wl){
-//				if(wi.getTimes()!= 0) recited++;
-//				if(wi.getCorrect()!= 0) correct++;
-//			}
-//			data[i] = new Object[]{(char)(i+'a')+" 词库",wl.size(),recited,correct, recited - correct,recited==0?0:((float)correct/recited)};
-//			totalRecited+=recited;
-//			totalCorrect+=correct;
-//			totalWord+=wl.size();
-//		}
-//		data[26] = new Object[]{ "词库总计",totalWord,totalRecited,totalCorrect, totalRecited - totalCorrect,totalRecited==0?0:((float)totalCorrect/totalRecited)};
+		String[] databases = wd.getAllDataBase();
+		Object[][] data = new Object[databases.length+1][];
+		int totalRecited = 0,totalCorrect = 0,totalWord=0;;
+		for(int i = 0;i<databases.length;i++){
+			wd.setCurrentDatabase(databases[i]);
+			List<WordItem> wl = wd.search("", -1);
+			int recited=0,correct=0;
+			for(WordItem wi:wl){
+				if(wi.getTimes()!= 0) recited++;
+				if(wi.getCorrect()!= 0) correct++;
+			}
+			data[i] = new Object[]{databases[i]+" 词库",wl.size(),recited,correct, recited - correct,recited==0?0:((float)correct/recited)};
+			totalRecited+=recited;
+			totalCorrect+=correct;
+			totalWord+=wl.size();
+		}
+		data[databases.length] = new Object[]{ "词库总计",totalWord,totalRecited,totalCorrect, totalRecited - totalCorrect,totalRecited==0?0:((float)totalCorrect/totalRecited)};
 //		
-//		b.buildStatistics(data);
+		b.buildStatistics(data);
 		return null;
 	}
 
