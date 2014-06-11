@@ -23,7 +23,7 @@ public class StatisticsFrame extends JFrame {
 		setSize(800, 700);
         final TablePannel table = new TablePannel(data);
 
-        paintPics(data,26);
+        paintPics(data,data.length-1);
 
         setLayout(new BorderLayout());
         
