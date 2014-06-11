@@ -18,27 +18,38 @@ public class MyPannelBuilder implements PannelBuilder {
 	private UiActions mActions;
 	
 	private JFrame mf=null;
+	private MenuPannel mp = null;
+	private ConfigPannel cp = null;
+	
+	private RecitePannel rp = null;
+	
 	public MyPannelBuilder(UiActions mActions){
 		this.mActions= mActions;
 	}
+	
 	@Override
 	public RecitePannel buildRecitePannel(WordItem wi,Boolean f,int i) {
-		return new WordPannel(mActions, wi.getCh(), f, i);
+		return new WordPannel(mActions, wi, f, i);
 	}
 
 	@Override
 	public MenuPannel buildMenuPannel(String[] lists) {
-		return new MyMenuPanel(mActions, lists);
+		if(mp == null) mp = new MyMenuPanel(mActions, lists);
+		return mp;
 	}
+	
 	@Override
 	public ConfigPannel buildConfigPannel() {
-		return new MyConfigPanel(mActions);
+		if(cp == null) cp = new MyConfigPanel(mActions);
+		return cp;
 	}
+	
 	@Override
 	public JFrame buildJframe() {
 		if(mf == null) mf = new MainFrame(mActions);
 		return mf;
 	}
+	
 	@Override
 	public JFrame buildStatistics(Object[][] data) {
 		return new StatisticsFrame(data,mf);
