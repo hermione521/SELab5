@@ -1,11 +1,9 @@
 package wordData;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -13,7 +11,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.StringTokenizer;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
 
 import interfaces.WordDatabase;
 import interfaces.WordItem;
@@ -23,7 +27,7 @@ public class MyWordDatabase implements WordDatabase {
 	private static final long serialVersionUID = -6651456824394715211L;
 	private String name;
 
-	public static WordDatabase instance(String f) throws IOException{
+	public static WordDatabase instance(String f) throws IOException, SAXException, ParserConfigurationException{
 		
 		try {
 			FileInputStream freader = new FileInputStream(f+".dat");
@@ -40,20 +44,49 @@ public class MyWordDatabase implements WordDatabase {
 	private Map<String,List<WordItem>> wordlists = new HashMap<String,List<WordItem>>();
 	private String currentDatabase;
 	
-	private MyWordDatabase(String f) throws IOException{
+	private MyWordDatabase(String f) throws IOException, SAXException, ParserConfigurationException{
 		File file = new File(f);
 		name = file.getName();
-		//TODO
-		BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file),"GBK"));
-		String data;
-		while((data = br.readLine())!=null){
-		     StringTokenizer st = new StringTokenizer(data);
-		     WordItem word = new MyWordItem(st.nextToken(), st.nextToken());
-		     String type = word.getTypes();
-		     if(wordlists.get(type)==null) wordlists.put(type,new ArrayList<WordItem>());
-		     wordlists.get(type).add(word);
-		}
-		br.close();
+		SAXParserFactory factory = SAXParserFactory.newInstance();
+        SAXParser parser = factory.newSAXParser();  
+        parser.parse(file, new DefaultHandler(){
+        	private String en,ch;
+        	private int tag=TAG_NONE;
+        	public static final int TAG_NONE=-1;
+        	public static final int TAG_EN=0;
+        	public static final int TAG_CH=1;
+			@Override
+			public void characters(char[] arg0, int arg1, int arg2) throws SAXException {
+				switch(tag){
+				case TAG_EN:en=new String(arg0).substring(arg1,arg1+arg2);tag=TAG_NONE;break;
+				case TAG_CH:ch=new String(arg0).substring(arg1,arg1+arg2);tag=TAG_NONE;break;
+				}
+			}
+
+			@Override
+			public void endElement(String arg0, String arg1, String qName) throws SAXException {
+				if (qName.equalsIgnoreCase("word")) {
+					WordItem wi = new MyWordItem(en, ch);
+					String type = wi.getTypes();
+					if (wordlists.get(type) == null) wordlists.put(type, new ArrayList<WordItem>());
+					List<WordItem> list = wordlists.get(type);
+					list.add(wi);
+				}
+
+			}
+
+			@Override
+			public void startElement(String arg0, String arg1, String qName, Attributes arg3) throws SAXException {
+				if(qName.equalsIgnoreCase("word")){
+					en=null;ch=null;
+				}else if(qName.equalsIgnoreCase("english")){
+					tag = TAG_EN;
+				}else if(qName.equalsIgnoreCase("chinese")){
+					tag = TAG_CH;
+				}
+			}
+        	
+        });;
 	}
 	
 	@Override
