@@ -7,6 +7,9 @@ import java.util.List;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.xml.sax.SAXException;
 
 import ui.main.MyPannelBuilder;
 import wordData.MyWordDatabase;
@@ -22,9 +25,12 @@ public class Controler implements UiActions {
 	
 	public Controler(){
 		try {
-			wd = MyWordDatabase.instance("dictionary.txt");
+			wd = MyWordDatabase.instance("dictionary.xml");
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null,"未发现词库");  
+			this.exitProgramme();
+		} catch (SAXException|ParserConfigurationException e) {
+			JOptionPane.showMessageDialog(null,"词库异常");  
 			this.exitProgramme();
 		}
 		
@@ -45,7 +51,7 @@ public class Controler implements UiActions {
 	
 	@Override
 	public void exitProgramme() {
-		wd.save();
+		if(wd!=null) wd.save();
 		System.exit(0);
 	}
 
