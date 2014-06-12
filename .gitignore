@@ -215,3 +215,5 @@ pip-log.txt
 .mr.developer.cfg
 dictionary.txt
 dictionary.txt.dat
+dictionary.xml.dat
+dictionary.xml
