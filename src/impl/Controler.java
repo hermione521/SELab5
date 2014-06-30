@@ -145,8 +145,8 @@ public class Controler implements UiActions {
 			List<WordItem> wl = wd.search("", -1);
 			int recited=0,correct=0;
 			for(WordItem wi:wl){
-				if(wi.getTimes()!= 0) recited++;
-				if(wi.getCorrect()!= 0) correct++;
+				if(wi.getTimes()!= 0) recited+=wi.getTimes();
+				if(wi.getCorrect()!= 0) correct+=wi.getCorrect();
 			}
 			data[i] = new Object[]{databases[i]+" 词库",wl.size(),recited,correct, recited - correct,recited==0?0:((float)correct/recited)};
 			totalRecited+=recited;
